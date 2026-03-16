@@ -43,19 +43,15 @@ export function JHABuilder() {
     if (!aiDesc) { alert('Describe the work activity.'); return }
     setGenerating(true); setAiResult(''); setPeerReview('')
 
-    const usaceExtra = usace ? `\n\nUSACE AHA REQUIREMENTS (EM 385-1-1 Section 01.A.14):
-- Title each step as a "Definable Feature of Work"
-- Include Risk Assessment Code (RAC) for each hazard: 1=Imminent Danger, 2=Serious, 3=Moderate, 4=Minor, 5=Negligible
-- Identify Competent/Qualified Person for EACH step
-- Include required inspections (Preparatory, Initial, Follow-Up)
-- Reference specific EM 385-1-1 sections for each control
-- Include training requirements per step
-- Format as official AHA document with contract number field` : ''
+    // Use a condensed prompt to stay under Netlify's 10s timeout
+    const condensedPrompt = usace
+      ? `You are a USACE EM 385-1-1 safety expert. Generate an Activity Hazard Analysis (AHA) per Section 01.A.14. Cite EM 385 sections. Include RAC codes (1-5), Competent Persons, and Three-Phase Inspection requirements.`
+      : `You are a construction safety expert. Generate a Job Hazard Analysis with OSHA citations. Use WHAT-WHY-HOW framework.`
 
-    const prompt = `${sysPrompt}\n\nGenerate a comprehensive ${docTypeFull} for:\nACTIVITY: ${aiDesc}\nPROJECT: ${activeProject?.name || 'General'}\nLOCATION: ${activeProject?.location || ''}, ${activeProject?.city || ''}, ${activeProject?.state || ''}\nFRAMEWORK: ${activeProject?.framework || 'OSHA'}${usaceExtra}\n\nFor EACH step provide:\n- Step description\n- Hazards identified\n- Controls (hierarchy: engineering → administrative → PPE)\n- Responsible/Competent Person\n- Specific standard citation${usace ? '\n- RAC Code\n- Inspection requirements' : ''}\n\nAlso include:\n- Complete PPE list\n- Required permits\n- Emergency procedures\n- Pre-task checklist\n- STOP WORK triggers\n- Training requirements`
+    const prompt = `${condensedPrompt}\n\nGenerate a ${docTypeFull} for:\nACTIVITY: ${aiDesc}\nPROJECT: ${activeProject?.name || 'General'} — ${activeProject?.city || ''}, ${activeProject?.state || ''}\nFRAMEWORK: ${activeProject?.framework || 'OSHA'}\n\nFor each step: hazards, controls (engineering→admin→PPE), responsible person, citation${usace ? ', RAC code' : ''}.\nInclude: PPE list, permits needed, emergency procedures, STOP WORK triggers.`
 
     try {
-      const data = await callClaude([{ role: 'user', content: prompt }], 2500)
+      const data = await callClaude([{ role: 'user', content: prompt }], 4000)
       setAiResult(data.content?.[0]?.text || 'No response')
     } catch (e: any) { setAiResult('Error: ' + e.message) }
     setGenerating(false)
