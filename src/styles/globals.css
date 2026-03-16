@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0a0e1a; --bg2: #111827; --bg3: #1a1f35; --bg4: #0d1225;
+  --bdr: #2a3150; --bdr2: #3a4570;
+  --t1: #e8ecf4; --t2: #8b95b0; --t3: #5a6480;
+  --acc: #f97316; --acc2: #fb923c;
+  --blu: #4fc3f7; --grn: #22c55e; --yel: #fbbf24; --red: #ef4444; --pur: #a78bfa;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--t1); }
+::selection { background: var(--acc); color: var(--bg); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--t3); border-radius: 3px; }
+
+/* Severity badges */
+.sev-low { background: rgba(34,197,94,.12); color: var(--grn); border: 1px solid rgba(34,197,94,.3); padding: 2px 8px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; }
+.sev-mod { background: rgba(251,191,36,.12); color: var(--yel); border: 1px solid rgba(251,191,36,.3); padding: 2px 8px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; }
+.sev-high { background: rgba(249,115,22,.12); color: var(--acc); border: 1px solid rgba(249,115,22,.3); padding: 2px 8px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; }
+.sev-crit { background: rgba(239,68,68,.12); color: var(--red); border: 1px solid rgba(239,68,68,.3); padding: 2px 8px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; }
+
+/* AI result formatting */
+.ai-result h2 { color: var(--acc); font-size: 1.1rem; font-weight: 800; margin: 1.2rem 0 0.4rem; }
+.ai-result h3 { color: var(--acc); font-size: 1rem; font-weight: 700; margin: 1rem 0 0.3rem; border-bottom: 1px solid var(--bdr); padding-bottom: 0.2rem; }
+.ai-result h4 { color: var(--acc); font-size: 0.9rem; font-weight: 700; margin: 0.8rem 0 0.2rem; }
+.ai-result strong { color: var(--acc); }
+.ai-result ul, .ai-result ol { padding-left: 1.5rem; margin: 0.3rem 0; }
+.ai-result li { margin: 0.15rem 0; }
+.ai-result code { background: var(--bg3); padding: 2px 6px; border-radius: 3px; font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+
+/* OSHA citation highlight */
+.osha-cite { color: var(--blu); font-weight: 600; }
+.em385-cite { color: var(--pur); font-weight: 600; }
+.stop-work { background: rgba(239,68,68,.15); border: 1px solid var(--red); border-radius: 6px; padding: 0.75rem; color: var(--red); font-weight: 700; margin: 0.5rem 0; }
